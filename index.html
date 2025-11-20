@@ -2,8 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Beranda - Desa Jatisari</title>
+    <title>WEB PEMERINTAH DESA JATISARI</title>
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -21,9 +23,16 @@
 
     <nav>
         <ul>
-            <li><a href="index.html">Beranda</a></li>
+            <li><a href="index.html" class="active">Beranda</a></li>
             <li><a href="profil.php">Profil Desa</a></li> 
-            <li><a href="form_surat.php">Buat Surat</a></li>
+            <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
+            <div class="dropdown-content" id="suratDropdown">
+                <a href="form_skck.php">Surat Pengantar SKCK</a>
+                <a href="form_domisili.php">Surat Keterangan Domisili</a>
+                <a href="form_kepemilikan.php">Surat Keterangan Kepemilikan</a>
+             </div>
+            </li>
         </ul>
     </nav>
 
@@ -63,37 +72,52 @@
                 </div>
             </div>
 
-            <div class="card visi-misi-card">
-                <h3>📜 Visi dan Misi Desa Jatisari</h3>
-                <div class="visi-misi-content">
-                    <div>
-                        <h4>Visi</h4>
-                        <p>_"Terwujudnya Desa Jatisari yang Mandiri, Sejahtera, dan Berbudaya melalui Tata Kelola Pemerintahan yang Bersih dan Transparan."_</p>
-                    </div>
-                    <div>
-                        <h4>Misi</h4>
-                        <ul>
-                            <li>Meningkatkan kualitas pelayanan publik.</li>
-                            <li>Mengembangkan potensi ekonomi lokal berbasis pertanian.</li>
-                            <li>Menciptakan lingkungan yang aman dan harmonis.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <h2>Informasi Kontak dan Lokasi</h2>
             
-            <h2>Informasi Terkini</h2>
             <div class="card map-card">
-                <h3>📍 Lokasi Kantor Kepala Desa</h3>
+                <h3><i class="fa-solid fa-map-pin"></i> Lokasi Kantor Kepala Desa</h3>
                 <div id="mapid" style="height: 350px; width: 100%;"></div> 
             </div>
+            
+            <div class="card kontak-card">
+                <h3><i class="fa-solid fa-address-book"></i> Kontak Kami</h3>
+                <div class="kontak-list">
+                    
+                    <p>
+                        <i class="fa-solid fa-phone fa-lg fa-fw"></i> 
+                        <a href="https://wa.me/628123456789" target="_blank">0812-3456-789 (WhatsApp)</a>
+                    </p>
+                    
+                    <p>
+                        <i class="fa-solid fa-envelope fa-lg fa-fw"></i> 
+                        <a href="mailto:desajatisari@mail.com" target="_blank">desajatisari@mail.com</a>
+                    </p>
+                    
+                    <p>
+                        <i class="fa-brands fa-facebook fa-lg fa-fw"></i> 
+                        <a href="https://facebook.com/desajatisari" target="_blank">facebook.com/desajatisari</a>
+                    </p>
+                    
+                    <p>
+                        <i class="fa-brands fa-instagram fa-lg fa-fw"></i> 
+                        <a href="https://instagram.com/desajatisari" target="_blank">instagram.com/desajatisari</a>
+                    </p>
+                    
+                    <p>
+                        <i class="fa-solid fa-location-dot fa-lg fa-fw"></i> 
+                        Jl. Kyai Haji Wahab Hasbullah No.228, Tambak Rejo, Kec. Jombang, Kabupaten Jombang, Jawa Timur 61451
+                    </p>
+                </div>
+            </div>
+
         </div>
 
         <div class="sidebar">
             
             <div class="card slider-card anggota-slider-container">
-                <h3>🤝 Anggota Pemerintah Desa</h3>
+                <h3><i class="fa-solid fa-handshake"></i> Anggota Pemerintah Desa</h3>
                 
-                <div class="slider-content" id="anggotaSlider">
+                <div class="slider-content" id="anggotaSlider" style="min-height: 220px;"> 
                     <div class="anggota-item-slide">
                         <img src="images/kepala_desa.jpg" alt="Foto Kepala Desa">
                         <h4>Budi Santoso, S.E.</h4>
@@ -116,9 +140,9 @@
             </div>
             
             <div class="card slider-card gallery-slider-container">
-                <h3>📷 Galeri Kegiatan Desa</h3>
+                <h3><i class="fa-solid fa-camera-retro"></i> Galeri Kegiatan Desa</h3>
                 
-                <div class="slider-content" id="galeriSlider">
+                <div class="slider-content" id="galeriSlider" style="min-height: 250px;">
                     <div class="galeri-item-slide">
                         <img src="images/aktivitas_1.jpg" alt="Aktivitas 1" class="galeri-img">
                         <p class="galeri-caption">Rapat Rutin Bulanan Pemerintah Desa.</p>
@@ -141,49 +165,6 @@
         &copy; 2025 Pemerintah Desa Jatisari.
     </footer>
     
-    <script src="maps_info.js"></script> 
-    
-    <script>
-        // JAVASCRIPT UNTUK SLIDER OTOMATIS
-        function startAutoSlider(containerId, interval = 3000) {
-            let slideIndex = 0;
-            const slides = document.getElementById(containerId).getElementsByClassName(containerId === 'anggotaSlider' ? 'anggota-item-slide' : 'galeri-item-slide');
-
-            function showSlides() {
-                for (let i = 0; i < slides.length; i++) {
-                    slides[i].classList.add('hidden-slide');
-                }
-                
-                slideIndex++;
-                if (slideIndex >= slides.length) {
-                    slideIndex = 0; 
-                }
-                
-                slides[slideIndex].classList.remove('hidden-slide');
-            }
-            
-            if (slides.length > 0) {
-                 slides[0].classList.remove('hidden-slide');
-                 setInterval(showSlides, interval);
-            }
-           
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            if(document.getElementById('anggotaSlider')) {
-                startAutoSlider('anggotaSlider', 3000); 
-            }
-
-            if(document.getElementById('galeriSlider')) {
-                startAutoSlider('galeriSlider', 3000);
-            }
-            
-            setTimeout(function(){
-                if(window.map) {
-                    window.map.invalidateSize();
-                }
-            }, 500);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
