@@ -2,22 +2,19 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>WEB PEMERINTAH DESA JATISARI</title>
+    <title>Beranda - Desa Jatisari</title>
     <link rel="stylesheet" href="style.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     
 </head>
 <body>
     
     <header>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Logo_Garuda_Pancasila_Gold.svg/1200px-Logo_Garuda_Pancasila_Gold.svg.png" alt="Logo">
+        <img src="image/logo.png" alt="Logo">
         <div>
-            <h1>PEMERINTAH DESA JATISARI</h1>
-            <p>Kecamatan Sluke, Kabupaten Rembang, Jawa Tengah</p>
+            <h1>PEMERINTAH DESA BUDUKSIDOREJO</h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
         </div>
     </header>
 
@@ -42,16 +39,18 @@
             
             <div class="card sambutan-card">
                 <div class="sambutan-header">
-                    <img src="images/kepala_desa_sambutan.jpg" alt="Foto Kepala Desa" class="foto-kepala-desa">
+                    <img src="image/struktural/KepalaDesa.jpg" alt="Foto Kepala Desa" class="foto-kepala-desa">
                     <div class="sambutan-text">
                         <h2>Selamat Datang di Website Resmi Desa Jatisari</h2>
                         <p class="greeting-text">
                             Assalamualaikum Warahmatullahi Wabarakatuh. <br>
-                            Selamat datang di portal informasi dan layanan daring resmi Pemerintah Desa Jatisari. Website ini kami hadirkan sebagai wujud transparansi dan komitmen kami untuk memberikan pelayanan terbaik bagi seluruh masyarakat. Di sini, Anda dapat mengakses informasi terbaru mengenai kegiatan desa, profil pemerintahan, dan bahkan mengajukan surat keterangan secara online.
+                            Selamat datang di portal informasi dan layanan daring resmi Pemerintah Desa Budugsidorejo. 
+                            Website ini kami hadirkan sebagai wujud transparansi dan komitmen kami untuk memberikan pelayanan terbaik bagi seluruh masyarakat. 
+                            Di sini, Anda dapat mengakses informasi terbaru mengenai kegiatan desa, profil pemerintahan, dan bahkan mengajukan surat keterangan secara online.
                         </p>
                         <p class="kepala-desa-info">
-                            **Budi Santoso, S.E.** <br>
-                            Kepala Desa Jatisari
+                            **Asmujiono** <br>
+                            Kepala Desa Budugsidorejo
                         </p>
                     </div>
                 </div>
@@ -60,15 +59,15 @@
             <div class="statistik-grid">
                 <div class="card statistik-item">
                     <h4>Penduduk</h4>
-                    <p class="data-besar">**4.567** Jiwa</p>
+                    <p class="data-besar">4.567 Jiwa</p>
                 </div>
                 <div class="card statistik-item">
                     <h4>Luas Wilayah</h4>
-                    <p class="data-besar">**3,2** Km²</p>
+                    <p class="data-besar">3,2 Km²</p>
                 </div>
                 <div class="card statistik-item">
                     <h4>Potensi Unggulan</h4>
-                    <p class="data-besar">**Pertanian & Wisata**</p>
+                    <p class="data-besar">Pertanian</p>
                 </div>
             </div>
 
@@ -76,7 +75,15 @@
             
             <div class="card map-card">
                 <h3><i class="fa-solid fa-map-pin"></i> Lokasi Kantor Kepala Desa</h3>
-                <div id="mapid" style="height: 350px; width: 100%;"></div> 
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.620960002925!2d112.36692877395355!3d-7.507028274055642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e78131827214781%3A0xe52e75ddff86a0bd!2sKantor%20Kepala%20Desa%20Budug%20Sidorejo!5e0!3m2!1sen!2sid!4v1763620634322!5m2!1sen!2sid" 
+                    width="100%" 
+                    height="350" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
             
             <div class="card kontak-card">
@@ -105,7 +112,7 @@
                     
                     <p>
                         <i class="fa-solid fa-location-dot fa-lg fa-fw"></i> 
-                        Jl. Kyai Haji Wahab Hasbullah No.228, Tambak Rejo, Kec. Jombang, Kabupaten Jombang, Jawa Timur 61451
+                        Jl. Raya Curah Malang, Sembujo Utara, Budugsidorejo, Kec. Sumobito, Kabupaten Jombang, Jawa Timur 61483
                     </p>
                 </div>
             </div>
@@ -115,26 +122,85 @@
         <div class="sidebar">
             
             <div class="card slider-card anggota-slider-container">
-                <h3><i class="fa-solid fa-handshake"></i> Anggota Pemerintah Desa</h3>
+                <h3><i class="fa-solid fa-handshake"></i> Struktural Pemerintah Desa</h3>
                 
                 <div class="slider-content" id="anggotaSlider" style="min-height: 220px;"> 
+                    
                     <div class="anggota-item-slide">
-                        <img src="images/kepala_desa.jpg" alt="Foto Kepala Desa">
+                        <img src="image/struktural/KepalaDesa.jpg" alt="Foto Kepala Desa">
                         <h4>Budi Santoso, S.E.</h4>
                         <p class="jabatan">Kepala Desa</p>
                         <span class="jabatan-keterangan">Pimpinan Tertinggi</span>
                     </div>
+                    
                     <div class="anggota-item-slide hidden-slide">
-                        <img src="images/sekdes.jpg" alt="Foto Sekdes">
-                        <h4>Rina Wijaya</h4>
+                        <img src="image/struktural/Sekertaris.jpg" alt="Foto Sekertaris">
+                        <h4>Ichwan Susanto</h4>
                         <p class="jabatan">Sekretaris Desa</p>
-                        <span class="jabatan-keterangan">Koordinator Staf</span>
+                        <span class="jabatan-keterangan">mengurus administrasi desa</span>
                     </div>
-                     <div class="anggota-item-slide hidden-slide">
-                        <img src="images/kasi_pemerintahan.jpg" alt="Foto Kasi Pemerintahan">
-                        <h4>Agus Widodo</h4>
+                    
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kasik Pemerintahan.jpg" alt="Foto Kasi pemerintahan">
+                        <h4>Nur Muchlisoh</h4>
                         <p class="jabatan">Kasi Pemerintahan</p>
-                        <span class="jabatan-keterangan">Mengurus Administrasi</span>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kasik Pelayanan.jpeg" alt="Foto Kasi pelayanan">
+                        <h4>Siti Maryam</h4>
+                        <p class="jabatan">Kasi Pelayanan </p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kasik Kesejahteraan.jpg" alt="Foto Kasi Kesejahteraan">
+                        <h4>Nur Cholis</h4>
+                        <p class="jabatan">Kasi Kesejahteraan</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kaur Tata Usaha dan Umum.jpeg" alt="Foto kaur TU">
+                        <h4>Rachmad Hidayat</h4>
+                        <p class="jabatan">Kaur Tata Usaha dan Umum</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kaur Perencanaan.png" alt="Foto Kaur Perencanaan">
+                        <h4>M. Ali Muchsin</h4>
+                        <p class="jabatan">Kaur Perencanaan</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kaur Keuangan.jpg" alt="Foto Kaur Keuangan">
+                        <h4>Supendi</h4>
+                        <p class="jabatan">Kaur Keuangan</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kasun Sidokampir.png" alt="Foto Kasun Sidokampir">
+                        <h4>M. Dava W.I</h4>
+                        <p class="jabatan">Kasun Sidokampir</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kasun Budug.png" alt="Foto Kasun Budug">
+                        <h4>Hadi Kuswoyo</h4>
+                        <p class="jabatan">Kasun Budug</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
+                    </div>
+
+                    <div class="anggota-item-slide hidden-slide">
+                        <img src="image/struktural/Kasun sembujo.jpeg" alt="Foto Kasun sembujo">
+                        <h4>M. Khoirun Nadzirin</h4>
+                        <p class="jabatan">Kasun sembujo</p>
+                        <span class="jabatan-keterangan">Mengurus</span>
                     </div>
                 </div>
             </div>
@@ -143,16 +209,19 @@
                 <h3><i class="fa-solid fa-camera-retro"></i> Galeri Kegiatan Desa</h3>
                 
                 <div class="slider-content" id="galeriSlider" style="min-height: 250px;">
+                    
                     <div class="galeri-item-slide">
-                        <img src="images/aktivitas_1.jpg" alt="Aktivitas 1" class="galeri-img">
+                        <img src="image/galeri/aktivitas_1.jpg" alt="Aktivitas 1" class="galeri-img">
                         <p class="galeri-caption">Rapat Rutin Bulanan Pemerintah Desa.</p>
                     </div>
+                    
                     <div class="galeri-item-slide hidden-slide">
-                        <img src="images/aktivitas_2.jpg" alt="Aktivitas 2" class="galeri-img">
+                        <img src="image/galeri/aktivitas_2.jpg" alt="Aktivitas 2" class="galeri-img">
                         <p class="galeri-caption">Kegiatan Gotong Royong Warga.</p>
                     </div>
+                    
                     <div class="galeri-item-slide hidden-slide">
-                        <img src="images/aktivitas_3.jpg" alt="Aktivitas 3" class="galeri-img">
+                        <img src="image/galeri/aktivitas_3.jpg" alt="Aktivitas 3" class="galeri-img">
                         <p class="galeri-caption">Pembagian Bantuan Sosial Tepat Sasaran.</p>
                     </div>
                 </div>

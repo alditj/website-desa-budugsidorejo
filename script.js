@@ -18,24 +18,8 @@ window.onclick = function(event) {
 }
 
 // =========================================================
-// B. INISIALISASI PETA LEAFLET (Jika ada di halaman)
+// B. INISIALISASI PETA LEAFLET (DIHAPUS KARENA MENGGUNAKAN IFRAME)
 // =========================================================
-function initMap() {
-    if (!document.getElementById('mapid')) return;
-    
-    var jatisariCoords = [-6.7770, 111.4330]; 
-    var map = L.map('mapid').setView(jatisariCoords, 14);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    L.marker(jatisariCoords).addTo(map)
-        .bindPopup("<b>Kantor Desa Jatisari</b><br>Pusat Pelayanan Masyarakat.")
-        .openPopup();
-        
-    window.map = map;
-}
 
 // =========================================================
 // C. FUNGSI SLIDER OTOMATIS (Jika ada di index.html)
@@ -68,10 +52,7 @@ function startAutoSlider(containerId, interval = 3000) {
 // D. INI DIJALANKAN SAAT HALAMAN SELESAI DIMUAT
 // =========================================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Hanya inisialisasi Map dan Slider jika elemennya ada di halaman (biasanya di index.html)
-    if (typeof L !== 'undefined') {
-        initMap(); 
-    }
+    // PANGGILAN INISIALISASI PETA SUDAH DIHAPUS
     
     if(document.getElementById('anggotaSlider')) {
         startAutoSlider('anggotaSlider', 3000); 
@@ -81,9 +62,5 @@ document.addEventListener('DOMContentLoaded', function() {
         startAutoSlider('galeriSlider', 3000);
     }
     
-    setTimeout(function(){
-        if(window.map) {
-            window.map.invalidateSize();
-        }
-    }, 500);
+    // PANGGILAN invalidateSize() PETA JUGA DIHAPUS
 });
