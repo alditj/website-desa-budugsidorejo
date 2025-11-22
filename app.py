@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file
 from docxtpl import DocxTemplate
 import os
-from datetime import datetime, date # Import date untuk perbaikan error di HTML
+from datetime import datetime, date
 import time 
 
 app = Flask(__name__)
@@ -20,10 +20,7 @@ DEFAULT_DESA = "Budugsidorejo"
 DEFAULT_KECAMATAN = "Sumobito"
 DEFAULT_KABUPATEN = "Jombang"
 
-# ----------------------------------------------------
 # FUNGSI BANTU (HELPER FUNCTIONS)
-# ----------------------------------------------------
-
 def format_tanggal(tgl_string):
     """Mengubah tanggal dari YYYY-MM-DD menjadi format Indonesia (DD Month YYYY)"""
     if not tgl_string:
@@ -85,10 +82,7 @@ def generate_and_send_doc(template_file, context, output_name_prefix):
         download_name=output_filename
     )
 
-# ----------------------------------------------------
 # ROUTE UTAMA
-# ----------------------------------------------------
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -98,11 +92,8 @@ def profil_desa():
     section = request.args.get('section', 'visi_misi') 
     return render_template('profil.html', section=section) 
 
-# ----------------------------------------------------
 # ROUTE FORMULIR
-# ----------------------------------------------------
-
-# --- 1. SKCK ---
+# SKCK
 @app.route('/form/skck', methods=['GET', 'POST'])
 def form_skck():
     if request.method == 'GET':
@@ -110,7 +101,6 @@ def form_skck():
     elif request.method == 'POST':
         data = request.form.to_dict()
         
-        # Konteks manual untuk SKCK (sesuaikan nama field HTML form_skck.html Anda)
         context = {
             'NAMA_LENGKAP': data.get('nama_lengkap'),
             'Nktp': data.get('nik'),
@@ -129,7 +119,7 @@ def form_skck():
         }
         return generate_and_send_doc('template_skck.docx', context, 'Surat_SKCK')
 
-# --- 2. DOMISILI ---
+# DOMISILI ---
 @app.route('/form/domisili', methods=['GET', 'POST'])
 def form_domisili():
     if request.method == 'GET':
@@ -137,15 +127,13 @@ def form_domisili():
     elif request.method == 'POST':
         data = request.form.to_dict()
         
-        # Pastikan format tanggal benar
         if data.get('tanggal_lahir'):
             data['tanggal_lahir'] = format_tanggal(data.get('tanggal_lahir'))
             
         data['nama_bawah'] = data.get('nama_lengkap')
-        # Kirim data langsung karena asumsi nama field HTML sama dengan template
         return generate_and_send_doc('template_domisili.docx', data, 'Surat_Domisili')
 
-# --- 3. KEPEMILIKAN KENDARAAN 
+# KEPEMILIKAN KENDARAAN 
 @app.route('/form/kendaraan', methods=['GET', 'POST'])
 def form_kendaraan():
     if request.method == 'GET':
@@ -183,12 +171,12 @@ def form_kendaraan():
             
             # Keperluan & Tanda Tangan
             'alasan_surat_dibuat': data.get('alasan_surat_dibuat'),
-            'nama_bawah': data.get('Nama_Lengkapp') # Ambil dari Nama_Lengkapp
+            'nama_bawah': data.get('Nama_Lengkapp') 
         }
 
         return generate_and_send_doc('template_kepemilikan_kendaraan.docx', context, 'Surat_Kepemilikan_Kendaraan')
 
-# --- 4. SURAT KUASA ---
+# SURAT KUASA ---
 @app.route('/form/kuasa', methods=['GET', 'POST'])
 def form_surat_kuasa():
     if request.method == 'GET':
@@ -218,7 +206,7 @@ def form_surat_kuasa():
         }
         return generate_and_send_doc('template_surat_kuasa.docx', context, 'Surat_Kuasa')
 
-# --- 5. SKTM ---
+# SKTM ---
 @app.route('/form/sktm', methods=['GET', 'POST'])
 def form_sktm():
     if request.method == 'GET':
@@ -241,7 +229,7 @@ def form_sktm():
         }
         return generate_and_send_doc('template_sktm.docx', context, 'Surat_SKTM')
 
-# --- 6. SKU ---
+# SKU ---
 @app.route('/form/sku', methods=['GET', 'POST'])
 def form_sku():
     if request.method == 'GET':
@@ -266,7 +254,7 @@ def form_sku():
         }
         return generate_and_send_doc('template_sku.docx', context, 'Surat_SKU')
 
-# --- 7. KEMATIAN ---
+# KEMATIAN ---
 @app.route('/form/kematian', methods=['GET', 'POST'])
 def form_surat_kematian():
     if request.method == 'GET':
@@ -297,7 +285,7 @@ def form_surat_kematian():
         }
         return generate_and_send_doc('template_surat_kematian.docx', context, 'Surat_Kematian')
 
-# --- 8. KEHILANGAN ---
+# KEHILANGAN ---
 @app.route('/form/kehilangan', methods=['GET', 'POST'])
 def form_kehilangan():
     if request.method == 'GET':
