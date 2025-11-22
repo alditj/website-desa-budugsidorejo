@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        Desa Budugsidorejo |
+        {% if section == 'profil_wilayah' %}Profil Wilayah Desa
+        {% elif section == 'sejarah' %}Sejarah Singkat Desa
+        {% elif section == 'struktur' %}Struktur Pemerintah Desa
+        {% elif section == 'data_penduduk' %}Data Penduduk Desa
+        {% else %}Visi dan Misi Desa
+        {% endif %}
+    </title>
+
+    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+
+    <header>
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo">
+        <div>
+            <h1>PEMERINTAH DESA BUDUGSIDOREJO </h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Beranda</a></li>
+            <li><a href="{{ url_for('profil_desa') }}" class="active">Profil Desa</a></li>
+            <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
+            <div class="dropdown-content" id="suratDropdown">
+                    <a href="{{ url_for('form_skck') }}">Surat Pengantar SKCK</a>
+                    <a href="{{ url_for('form_domisili') }}">Surat Keterangan Domisili</a>
+                    <a href="{{ url_for('form_kendaraan') }}">Surat Keterangan Kepemilikan Kendaraan</a>
+                    <a href="{{ url_for('form_surat_kuasa') }}">Surat Kuasa</a>
+                    <a href="{{ url_for('form_sktm') }}">Surat Keterangan Tidak Mampu (SKTM)</a>
+                    <a href="{{ url_for('form_sku') }}">Surat Keterangan Usaha (SKU)</a>
+                    <a href="{{ url_for('form_surat_kematian') }}">Surat Keterangan Kematian</a>
+                    <a href="{{ url_for('form_kehilangan') }}">Surat Keterangan Kehilangan</a>
+            </div>
+        </li>
+        </ul>
+    </nav>
+
+    <div class="content">
+
+        <aside class="sidebar sub-menu-card profile-sidebar">
+            <h3><i class="fa-solid fa-list-ul"></i> Kategori Profil</h3>
+            <ul class="sub-menu">
+                <li><a href="{{ url_for('profil_desa', section='profil_wilayah') }}" class="{% if section == 'profil_wilayah' %}active{% endif %}"><i class="fa-solid fa-map"></i> Profil Wilayah</a></li>
+                <li><a href="{{ url_for('profil_desa', section='sejarah') }}" class="{% if section == 'sejarah' %}active{% endif %}"><i class="fa-solid fa-book-open"></i> Sejarah Desa</a></li>
+                <li><a href="{{ url_for('profil_desa', section='visi_misi') }}" class="{% if section == 'visi_misi' %}active{% endif %}"><i class="fa-solid fa-bullseye"></i> Visi & Misi</a></li>
+                <li><a href="{{ url_for('profil_desa', section='struktur') }}" class="{% if section == 'struktur' %}active{% endif %}"><i class="fa-solid fa-people-group"></i> Struktur Pemerintahan</a></li>
+                <li><a href="{{ url_for('profil_desa', section='data_penduduk') }}" class="{% if section == 'data_penduduk' %}active{% endif %}"><i class="fa-solid fa-users"></i> Data Penduduk</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-area card profile-content-card">
+            <h2 id="judul-profil">
+                {% if section == 'profil_wilayah' %}Profil Wilayah Desa
+                {% elif section == 'sejarah' %}Sejarah Singkat Desa
+                {% elif section == 'struktur' %}Struktur Pemerintah Desa
+                {% elif section == 'data_penduduk' %}Data Penduduk Desa
+                {% else %}Visi dan Misi Desa
+                {% endif %}
+            </h2>
+
+            <section class="profil-detail">
+
+                {% if section == 'struktur' %}
+                    <h3>Struktur Organisasi Pemerintah Desa Budugsidorejo:</h3>
+                    <div class="struktur-organisasi-container">
+                        <img src="{{ url_for('static', filename='image/diagram.png') }}" alt="Bagan Struktur Pemerintahan Desa Budugsidorejo" class="struktur-img">
+                        <p style="margin-top: 10px; color: #555;">Bagan Struktur Organisasi Pemerintah Desa Budugsidorejo</p>
+                    </div>
+
+                {% elif section == 'data_penduduk' %}
+                    <h3>Data Jumlah Penduduk</h3>
+                    <p>
+                        Data kependudukan Desa Budugsidorejo berdasarkan Data Potensi Sosial Ekonomi Desa/Kelurahan Tahun 2018 adalah sebagai berikut:
+                    </p>
+
+                    <div class="data-section">
+                        <h4>Jumlah Penduduk Menurut Jenis Kelamin</h4>
+                        <table class="data-tabel">
+                            <thead>
+                                <tr><th>Jenis Kelamin</th><th>Jumlah</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Laki – laki</td><td>3.230 Jiwa</td></tr>
+                                <tr><td>Perempuan</td><td>3.544 Jiwa</td></tr>
+                                <tr><td><strong>Total Penduduk</strong></td><td><strong>6.774 Jiwa</strong></td></tr>
+                                <tr><td>Kepala Keluarga</td><td>1.923 KK</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>Jumlah Penduduk Menurut Golongan Umur</h4>
+                        <table class="data-tabel">
+                            <thead>
+                                <tr><th>Rentang Umur</th><th>Jumlah (Jiwa)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>> 65</td><td>98</td></tr>
+                                <tr><td>60 – 65</td><td>178</td></tr>
+                                <tr><td>55 – 60</td><td>280</td></tr>
+                                <tr><td>50 – 55</td><td>281</td></tr>
+                                <tr><td>45 – 50</td><td>681</td></tr>
+                                <tr><td>40 – 45</td><td>831</td></tr>
+                                <tr><td>35 – 40</td><td>689</td></tr>
+                                <tr><td>30 – 35</td><td>706</td></tr>
+                                <tr><td>25 – 30</td><td>711</td></tr>
+                                <tr><td>20 – 25</td><td>831</td></tr>
+                                <tr><td>15 – 20</td><td>541</td></tr>
+                                <tr><td>10 – 15</td><td>463</td></tr>
+                                <tr><td>5 – 10</td><td>345</td></tr>
+                                <tr><td>< 5</td><td>139</td></tr>
+                                <tr><td><strong>Jumlah</strong></td><td><strong>6.773</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>Jumlah Penduduk Menurut Agama</h4>
+                        <table class="data-tabel">
+                            <thead>
+                                <tr><th>Agama</th><th>Jumlah Penganut (orang)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Islam</td><td>6773</td></tr>
+                                <tr><td>Kristen</td><td>0</td></tr>
+                                <tr><td>Katholik</td><td>0</td></tr>
+                                <tr><td>Hindu</td><td>0</td></tr>
+                                <tr><td>Budha</td><td>0</td></tr>
+                                <tr><td><strong>Total</strong></td><td><strong>6.773</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="data-section">
+                        <h4>Jumlah Penduduk Menurut Tingkat Pendidikan</h4>
+                        <table class="data-tabel">
+                            <thead>
+                                <tr><th>Tingkat Pendidikan</th><th>Jumlah (orang)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Tidak Sekolah / Buta Huruf</td><td>27</td></tr>
+                                <tr><td>Tidak Tamat SD / Sederajat</td><td>198</td></tr>
+                                <tr><td>Tamat SD Sederajat</td><td>301</td></tr>
+                                <tr><td>Tamat SLTP / Sederajat</td><td>878</td></tr>
+                                <tr><td>Tamat SLTA / Sederajat</td><td>2117</td></tr>
+                                <tr><td>TAMAT D1, D2, D3</td><td>68</td></tr>
+                                <tr><td>Sarjana S1 / S-1</td><td>23</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p style="margin-top: 20px; font-style: italic; color: #777;">Sumber: Data Potensi Sosial Ekonomi Desa/Kelurahan Tahun 2018</p>
+
+
+                {% elif section == 'sejarah' %}
+                    <h3>Sejarah Singkat Desa Budugsidorejo</h3>
+
+                    <h4>Asal-usul Nama Desa Budugsidorejo</h4>
+                    <p>
+                        Menurut cerita para sesepuh, nama BUDUGSIDOREJO berasal dari gabungan tiga dusun yang sejak dahulu menjadi bagian wilayah desa, yaitu Dusun Budug, Dusun Sidokampir, dan Dusun Sembujo. Ketiga dusun ini kemudian dipersatukan dan melahirkan satu nama desa yang digunakan hingga sekarang.
+                    </p>
+                    <p>
+                        Nama Budugsidorejo sendiri terbentuk dari gabungan makna beberapa kata:
+                        <ul>
+                            <li>BUDUG: Menggambarkan gundukan tanah yang menjadi tempat bermukim penduduk.</li>
+                            <li>SIDO: Berarti “jadi” atau “terwujud”.</li>
+                            <li>REJO: Bermakna “ramai dan sejahtera”.</li>
+                        </ul>
+                        Jika digabungkan, Budugsidorejo dapat dimaknai sebagai wilayah permukiman masyarakat yang hidup dalam keramaian, kedamaian, dan kesejahteraan.
+                    </p>
+
+                    <h4>Perkembangan Historis</h4>
+                    <p>
+                        Secara historis, Desa Budugsidorejo berada di wilayah perbatasan antara Kabupaten Mojokerto dan Kabupaten Jombang. Pada masa penjajahan Belanda, daerah perbatasan ini menjadi salah satu titik pertahanan dan perlawanan rakyat pribumi Indonesia terhadap pasukan kolonial yang bermarkas di Mojokerto. Karena letaknya yang strategis, desa ini turut menjadi bagian dari perjalanan sejarah perjuangan masyarakat setempat.
+                    </p>
+
+                {% elif section == 'profil_wilayah' %}
+                    <h3>Kondisi Geografis dan Batas Wilayah</h3>
+
+                    <p>
+                        Desa Budugsidorejo merupakan salah satu dari 21 desa di wilayah Kecamatan Sumobito, Kabupaten Jombang. Desa ini terletak sekitar 6 km ke arah barat daya dari pusat Kecamatan Sumobito dan berbatasan langsung dengan Kabupaten Mojokerto.
+                    </p>
+                    <p>
+                        Luas wilayah Desa Budugsidorejo adalah ±424 hektar. Wilayah Desa Budugsidorejo terdiri dari beberapa dusun dengan karakteristik geografis yang beragam, didominasi oleh lahan pertanian.
+                    </p>
+
+                    <h4>Batas-batas Wilayah Desa</h4>
+                    <table class="data-tabel" style="width: auto;">
+                        <tr><td>Sebelah Utara</td><td> Desa Kendalsari (Kecamatan Sumobito) dan Desa Jombok (Kecamatan Kesamben, Kabupaten Jombang)</td></tr>
+                        <tr><td>Sebelah Timur</td><td> Desa Balongwono (Kecamatan Trowulan, Kabupaten Mojokerto)</td></tr>
+                        <tr><td>Sebelah Selatan</td><td> Desa Curahmalang (Kecamatan Sumobito, Kabupaten Jombang)</td></tr>
+                        <tr><td>Sebelah Barat</td><td> Desa Curahmalang dan Desa Kendalsari (Kecamatan Sumobito, Kabupaten Jombang)</td></tr>
+                    </table>
+
+                    <h4 style="margin-top: 20px;">Iklim</h4>
+                    <p>
+                        Iklim Desa Budugsidorejo serupa dengan desa-desa lain di wilayah Indonesia, yakni memiliki musim kemarau dan musim penghujan. Kondisi iklim ini mempengaruhi pola tanam dan kegiatan pertanian di desa.
+                    </p>
+
+
+                {% else %}
+                    <h3>Visi Desa Budugsidorejo</h3>
+                    <blockquote>
+                        Terwujudnya masyarakat desa budugsidorejo yang sejahtera dan mandiri terdepan di bidang pertanian.
+                    </blockquote>
+
+                    <h3 style="margin-top: 30px;">Misi Desa Budugsidorejo</h3>
+                    <ol>
+                        <li>Mewujudkan tata kelola pemerintah Desa Budugsidorejo yang bersih, transparan, dan profesional.</li>
+                        <li>Mewujudkan kualitas sumber daya manusia yang berkarakter dan berdaya saing.</li>
+                        <li>Meningkatkan kesejahteraan ekonomi masyarakat desa Budugsidorejo.</li>
+                        <li>Memfasilitasi pembinaan bagi warga dan lembaga Desa Budugsidorejo.</li>
+                    </ol>
+                {% endif %}
+
+            </section>
+        </main>
+
+    </div>
+
+    <footer>
+        &copy; 2025 Pemerintah Desa Budugsidorejo.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fungsi untuk dropdown menu surat
+        function toggleDropdown() {
+            const el = document.getElementById('suratDropdown');
+            el.classList.toggle('show');
+        }
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

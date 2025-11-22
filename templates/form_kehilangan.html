@@ -1,0 +1,25 @@
+<div class="form-container">
+    <h2>Formulir Surat Keterangan Kehilangan</h2>
+    <form action="{{ url_for('form_kehilangan') }}" method="POST">
+        <h3>Data Pemohon</h3>
+        <div class="form-group"><label>Nama Lengkap:</label><input type="text" name="nama_lengkap" required></div>
+        <div class="form-group"><label>NIK:</label><input type="text" name="nik" required></div>
+        <div class="form-group"><label>Tempat Lahir:</label><input type="text" name="tempat_lahir" required></div>
+        <div class="form-group"><label>Tanggal Lahir:</label><input type="date" name="tanggal_lahir" required></div>
+        <div class="form-group"><label>Jenis Kelamin:</label><select name="jenis_kelamin" required><option value="Laki-laki">Laki-laki</option></select></div>
+        <div class="form-group"><label>Agama:</label><select name="agama" required><option value="Islam">Islam</option></select></div>
+        <div class="form-group"><label>Pekerjaan:</label><input type="text" name="pekerjaan" required></div>
+        <div class="form-group"><label>Status Perkawinan:</label><select name="status_perkawinan" required><option value="Kawin">Kawin</option></select></div>
+        
+        <fieldset><legend>Alamat</legend>
+            <div class="form-group"><label>Dusun:</label><input type="text" name="dsn" required></div>
+            <div class="form-group"><label>RT:</label><input type="number" name="rt" required></div>
+            <div class="form-group"><label>RW:</label><input type="number" name="rw" required></div>
+        </fieldset>
+        
+        <h3>Data Kehilangan</h3>
+        <div class="form-group"><label>Nama Barang yang Hilang:</label><input type="text" name="barang_hilang" required></div>
+        <div class="form-group"><label>Keperluan Surat:</label><input type="text" name="alasan" required></div>
+        <button type="submit">Buat dan Unduh Surat Kehilangan</button>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+<div class="form-container">
+    <h2>Formulir Surat Keterangan Kematian</h2>
+    <form action="{{ url_for('form_surat_kematian') }}" method="POST">
+        <h3>Data Almarhum/Almarhumah</h3>
+        <div class="form-group"><label>Nama Lengkap:</label><input type="text" name="nama_almarhum" required></div>
+        <div class="form-group"><label>NIK:</label><input type="text" name="nik" required></div>
+        <div class="form-group"><label>Jenis Kelamin:</label><select name="jenis_kelamin" required><option value="Laki-laki">Laki-laki</option></select></div>
+        <div class="form-group"><label>Tempat Lahir:</label><input type="text" name="tempat_lahir" required></div>
+        <div class="form-group"><label>Tanggal Lahir:</label><input type="date" name="tanggal_lahir" required></div>
+        <div class="form-group"><label>Pekerjaan:</label><input type="text" name="pekerjaan" required></div>
+        
+        <fieldset><legend>Alamat Almarhum</legend>
+            <div class="form-group"><label>Dusun:</label><input type="text" name="dsn" required></div>
+            <div class="form-group"><label>RT:</label><input type="number" name="rt" required></div>
+            <div class="form-group"><label>RW:</label><input type="number" name="rw" required></div>
+        </fieldset>
+
+        <h3>Detail Kematian</h3>
+        <div class="form-group"><label>Hari Meninggal:</label><input type="text" name="hari_meninggal" placeholder="Contoh: Senin" required></div>
+        <div class="form-group"><label>Tanggal Meninggal:</label><input type="date" name="tanggal_meninggal" required></div>
+        <div class="form-group"><label>Pukul (Jam):</label><input type="text" name="jam_meninggal" placeholder="Contoh: 14.30 WIB" required></div>
+        
+        <fieldset><legend>Lokasi Meninggal (Dusun)</legend>
+            <div class="form-group"><label>Dusun:</label><input type="text" name="dsn_meninggal" required></div>
+            <div class="form-group"><label>RT:</label><input type="number" name="rt_meninggal" required></div>
+            <div class="form-group"><label>RW:</label><input type="number" name="rw_meninggal" required></div>
+        </fieldset>
+        <button type="submit">Buat dan Unduh Surat Kematian</button>
+    </form>
+</div>

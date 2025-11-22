@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Desa Budugsidorejo | Formulir Surat Pengantar SKCK</title>
+    
+    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <header>
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo">
+        <div>
+            <h1>PEMERINTAH DESA BUDUGSIDOREJO </h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Beranda</a></li>
+            <li><a href="{{ url_for('profil_desa') }}">Profil Desa</a></li> 
+            <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn active" onclick="toggleDropdown()">Buat Surat ▼</a>
+            <div class="dropdown-content" id="suratDropdown">
+                    <a href="{{ url_for('form_skck') }}" class="active">Surat Pengantar SKCK</a>
+                    <a href="{{ url_for('form_domisili') }}">Surat Keterangan Domisili</a>
+                    <a href="{{ url_for('form_kendaraan') }}">Surat Keterangan Kepemilikan Kendaraan</a>
+                    <a href="{{ url_for('form_surat_kuasa') }}">Surat Kuasa</a>
+                    <a href="{{ url_for('form_sktm') }}">Surat Keterangan Tidak Mampu (SKTM)</a>
+                    <a href="{{ url_for('form_sku') }}">Surat Keterangan Usaha (SKU)</a>
+                    <a href="{{ url_for('form_surat_kematian') }}">Surat Keterangan Kematian</a> 
+                    <a href="{{ url_for('form_kehilangan') }}">Surat Keterangan Kehilangan</a>
+            </div>
+        </li>
+        </ul>
+    </nav>
+
+    <div class="content-wrapper">
+        <div class="profil-content" style="width: 100%;">
+            
+            <main class="card form-card full-width">
+                
+                <div class="card-header">
+                    <h2>Formulir Surat Pengantar SKCK</h2>
+                    <p>Lengkapi data diri Anda untuk penerbitan Surat Pengantar SKCK dari Desa.</p>
+                </div>
+                
+                <form class="form-surat" action="{{ url_for('form_skck') }}" method="POST">
+                    
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fa-solid fa-address-card"></i> Data Diri Pemohon</h3>
+                        
+                        <div class="form-group">
+                            <label for="nama_lengkap">Nama Lengkap:</label>
+                            <div class="input-icon-group"><i class="fa-solid fa-signature"></i><input type="text" id="nama_lengkap" name="nama_lengkap" required></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nik">NIK / No KTP:</label>
+                            <div class="input-icon-group"><i class="fa-solid fa-id-card"></i><input type="text" id="nik" name="nik" pattern="[0-9]{16}" required></div>
+                        </div>
+                        
+                        <div class="form-group-inline" style="display: flex; gap: 20px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="tempat_lahir">Tempat Lahir:</label>
+                                <div class="input-icon-group"><i class="fa-solid fa-city"></i><input type="text" id="tempat_lahir" name="tempat_lahir" required></div>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="tanggal_lahir">Tanggal Lahir:</label>
+                                <div class="input-icon-group"><i class="fa-solid fa-calendar-days"></i><input type="date" id="tanggal_lahir" name="tanggal_lahir" required></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group-inline" style="display: flex; gap: 20px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="jenis_kelamin">Jenis Kelamin:</label>
+                                <select id="jenis_kelamin" name="jenis_kelamin" required>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="agama">Agama:</label>
+                                <select id="agama" name="agama" required>
+                                    <option value="Islam">Islam</option><option value="Kristen">Kristen</option><option value="Katolik">Katolik</option><option value="Hindu">Hindu</option><option value="Buddha">Buddha</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group-inline" style="display: flex; gap: 20px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="pekerjaan">Pekerjaan:</label>
+                                <div class="input-icon-group"><i class="fa-solid fa-briefcase"></i><input type="text" id="pekerjaan" name="pekerjaan" required></div>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="status_perkawinan">Status Perkawinan:</label>
+                                <select id="status_perkawinan" name="status_perkawinan" required>
+                                    <option value="Kawin">Kawin</option><option value="Belum Kawin">Belum Kawin</option><option value="Cerai Hidup">Cerai Hidup</option><option value="Cerai Mati">Cerai Mati</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fa-solid fa-location-dot"></i> Alamat KTP</h3>
+                        
+                        <div class="form-group">
+                            <label for="dsn">Dusun:</label>
+                            <div class="input-icon-group"><i class="fa-solid fa-road"></i><input type="text" id="dsn" name="dsn" required></div>
+                        </div>
+
+                        <div class="form-group-inline" style="display: flex; gap: 20px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="rt">RT:</label>
+                                <div class="input-icon-group"><i class="fa-solid fa-house"></i><input type="number" id="rt" name="rt" required></div>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="rw">RW:</label>
+                                <div class="input-icon-group"><i class="fa-solid fa-house-chimney"></i><input type="number" id="rw" name="rw" required></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-info">
+                        <i class="fa-solid fa-circle-info"></i> Pastikan data Anda sudah sesuai dengan KTP untuk menghindari kesalahan dalam penerbitan surat.
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="btn-primary">Buat dan Unduh Surat SKCK</button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Pemerintah Desa Jatisari.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fungsi untuk dropdown menu surat
+        function toggleDropdown() {
+            const el = document.getElementById('suratDropdown');
+            el.classList.toggle('show');
+        }
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Desa Budugsidorejo | Formulir Surat Kuasa</title>
+    
+    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Menggunakan form_style.css jika Anda sudah memisahkannya, atau tetap style.css -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <header>
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo">
+        <div>
+            <h1>PEMERINTAH DESA BUDUGSIDOREJO </h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Beranda</a></li>
+            <li><a href="{{ url_for('profil_desa') }}">Profil Desa</a></li> 
+            <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn active" onclick="toggleDropdown()">Buat Surat ▼</a>
+            <div class="dropdown-content" id="suratDropdown">
+                    <a href="{{ url_for('form_skck') }}">Surat Pengantar SKCK</a>
+                    <a href="{{ url_for('form_domisili') }}">Surat Keterangan Domisili</a>
+                    <a href="{{ url_for('form_kendaraan') }}">Surat Kepemilikan Kendaraan</a>
+                    <a href="{{ url_for('form_surat_kuasa') }}" class="active">Surat Kuasa</a>
+                    <a href="{{ url_for('form_sktm') }}">Surat Keterangan Tidak Mampu</a>
+                    <a href="{{ url_for('form_sku') }}">Surat Keterangan Usaha</a>
+                    <a href="{{ url_for('form_kehilangan') }}">Surat Keterangan Kehilangan</a>
+                    <a href="{{ url_for('form_surat_kematian') }}">Surat Keterangan Kematian</a>
+            </div>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <main class="form-surat">
+                <h2 class="section-title"><i class="fas fa-handshake"></i> Formulir Surat Kuasa</h2>
+                
+                <div class="alert-info">
+                    <i class="fas fa-info-circle"></i> <strong>Penting:</strong> Pastikan data kedua belah pihak (Pemberi dan Penerima Kuasa) diisi dengan benar sesuai KTP masing-masing.
+                </div>
+
+                <form action="{{ url_for('form_surat_kuasa') }}" method="POST">
+                    
+                    <!-- BAGIAN 1: PIHAK PERTAMA (PEMBERI KUASA) -->
+                    <fieldset>
+                        <legend><i class="fas fa-user"></i> Pihak Pertama (Pemberi Kuasa)</legend>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nama_pemohon">Nama Lengkap:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="nama_pemohon" name="nama_pemohon" placeholder="Nama Pemberi Kuasa" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nik_pemohon">NIK / No KTP:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-id-card"></i>
+                                    <input type="text" id="nik_pemohon" name="nik_pemohon" pattern="[0-9]{16}" placeholder="16 Digit NIK" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dsn_pemohon">Dusun (Alamat):</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <input type="text" id="dsn_pemohon" name="dsn_pemohon" placeholder="Dusun Pemberi Kuasa" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rt_pemohon">RT:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="number" id="rt_pemohon" name="rt_pemohon" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rw_pemohon">RW:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="number" id="rw_pemohon" name="rw_pemohon" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Info wilayah default (hidden atau readonly jika ingin ditampilkan) -->
+                        <div class="form-group">
+                            <label>Desa / Kec. / Kab.:</label>
+                            <input type="text" value="Budugsidorejo / Sumobito / Jombang" readonly style="background-color: #eee;">
+                        </div>
+                    </fieldset>
+
+                    <!-- BAGIAN 2: PIHAK KEDUA (PENERIMA KUASA) -->
+                    <fieldset style="margin-top: 30px;">
+                        <legend><i class="fas fa-user-check"></i> Pihak Kedua (Penerima Kuasa)</legend>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nama_penerima">Nama Lengkap:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="nama_penerima" name="nama_penerima" placeholder="Nama Penerima Kuasa" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nik_penerima">NIK / No KTP:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-id-card"></i>
+                                    <input type="text" id="nik_penerima" name="nik_penerima" pattern="[0-9]{16}" placeholder="16 Digit NIK" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dsn_penerima">Dusun (Alamat):</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <input type="text" id="dsn_penerima" name="dsn_penerima" placeholder="Dusun Penerima Kuasa" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rt_penerima">RT:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="number" id="rt_penerima" name="rt_penerima" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rw_penerima">RW:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="number" id="rw_penerima" name="rw_penerima" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Info wilayah default -->
+                        <div class="form-group">
+                            <label>Desa / Kec. / Kab.:</label>
+                            <input type="text" value="Budugsidorejo / Sumobito / Jombang" readonly style="background-color: #eee;">
+                        </div>
+                    </fieldset>
+
+                    <!-- BAGIAN 3: KEPERLUAN -->
+                    <div class="form-group" style="margin-top: 30px;">
+                        <label for="alasan_surat_dibuat">Keperluan / Tujuan Pemberian Kuasa:</label>
+                        <div class="input-icon-group">
+                            <i class="fas fa-pen-nib"></i>
+                            <textarea id="alasan_surat_dibuat" name="alasan_surat_dibuat" rows="4" placeholder="Contoh: Mengambil BPKB Sepeda Motor Honda Vario Nopol S 1234 XX di Kantor Samsat Jombang." required></textarea>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-file-export"></i> Buat dan Unduh Surat Kuasa
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Pemerintah Desa Jatisari.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fungsi untuk dropdown menu surat
+        function toggleDropdown() {
+            const el = document.getElementById('suratDropdown');
+            el.classList.toggle('show');
+        }
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

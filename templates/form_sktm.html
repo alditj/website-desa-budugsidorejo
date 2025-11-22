@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Desa Budugsidorejo | Formulir Surat Keterangan Tidak Mampu</title>
+    
+    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <header>
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo">
+        <div>
+            <h1>PEMERINTAH DESA BUDUGSIDOREJO </h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Beranda</a></li>
+            <li><a href="{{ url_for('profil_desa') }}">Profil Desa</a></li> 
+            <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn active" onclick="toggleDropdown()">Buat Surat ▼</a>
+            <div class="dropdown-content" id="suratDropdown">
+                    <a href="{{ url_for('form_skck') }}">Surat Pengantar SKCK</a>
+                    <a href="{{ url_for('form_domisili') }}">Surat Keterangan Domisili</a>
+                    <a href="{{ url_for('form_kendaraan') }}">Surat Kepemilikan Kendaraan</a>
+                    <a href="{{ url_for('form_surat_kuasa') }}">Surat Kuasa</a>
+                    <a href="{{ url_for('form_sktm') }}" class="active">Surat Keterangan Tidak Mampu</a>
+                    <a href="{{ url_for('form_sku') }}">Surat Keterangan Usaha</a>
+                    <a href="{{ url_for('form_kehilangan') }}">Surat Keterangan Kehilangan</a>
+                    <a href="{{ url_for('form_surat_kematian') }}">Surat Keterangan Kematian</a>
+            </div>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="main-content">
+            <main class="form-surat">
+                <h2 class="section-title"><i class="fas fa-hand-holding-heart"></i> Formulir Surat Keterangan Tidak Mampu (SKTM)</h2>
+                
+                <div class="alert-info">
+                    <i class="fas fa-info-circle"></i> Surat ini digunakan untuk keperluan keringanan biaya (Sekolah, Rumah Sakit, dll) bagi warga yang tergolong tidak mampu.
+                </div>
+
+                <form action="{{ url_for('form_sktm') }}" method="POST">
+                    
+                    <!-- BAGIAN 1: DATA PEMOHON -->
+                    <h3 class="subsection-title"><i class="fas fa-user"></i> Data Pemohon</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nama_lengkap">Nama Lengkap:</label>
+                            <div class="input-icon-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Nama sesuai KTP" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nik">NIK / No KTP:</label>
+                            <div class="input-icon-group">
+                                <i class="fas fa-id-card"></i>
+                                <input type="text" id="nik" name="nik" pattern="[0-9]{16}" placeholder="16 Digit NIK" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tempat_lahir">Tempat Lahir:</label>
+                            <div class="input-icon-group">
+                                <i class="fas fa-city"></i>
+                                <input type="text" id="tempat_lahir" name="tempat_lahir" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_lahir">Tanggal Lahir:</label>
+                            <div class="input-icon-group">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jenis_kelamin">Jenis Kelamin:</label>
+                            <div class="input-icon-group">
+                                <i class="fas fa-venus-mars"></i>
+                                <select id="jenis_kelamin" name="jenis_kelamin" required>
+                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status_perkawinan">Status Perkawinan:</label>
+                            <div class="input-icon-group">
+                                <i class="fas fa-ring"></i>
+                                <select id="status_perkawinan" name="status_perkawinan" required>
+                                    <option value="" disabled selected>Pilih Status</option>
+                                    <option value="Kawin">Kawin</option>
+                                    <option value="Belum Kawin">Belum Kawin</option>
+                                    <option value="Cerai Hidup">Cerai Hidup</option>
+                                    <option value="Cerai Mati">Cerai Mati</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pekerjaan">Pekerjaan:</label>
+                        <div class="input-icon-group">
+                            <i class="fas fa-briefcase"></i>
+                            <input type="text" id="pekerjaan" name="pekerjaan" placeholder="Contoh: Buruh Tani / Tidak Bekerja" required>
+                        </div>
+                    </div>
+
+                    <!-- BAGIAN 2: ALAMAT -->
+                    <fieldset>
+                        <legend><i class="fas fa-map-marker-alt"></i> Alamat Tempat Tinggal</legend>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dsn">Dusun:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-house-chimney"></i>
+                                    <input type="text" id="dsn" name="dsn" placeholder="Nama Dusun" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rt">RT:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="number" id="rt" name="rt" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rw">RW:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-hashtag"></i>
+                                    <input type="number" id="rw" name="rw" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Info wilayah default -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Desa:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-building"></i>
+                                    <input type="text" value="Budugsidorejo" readonly style="background-color: #f9f9f9;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kecamatan:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-map"></i>
+                                    <input type="text" value="Sumobito" readonly style="background-color: #f9f9f9;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kabupaten:</label>
+                                <div class="input-icon-group">
+                                    <i class="fas fa-city"></i>
+                                    <input type="text" value="Jombang" readonly style="background-color: #f9f9f9;">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- BAGIAN 3: KEPERLUAN -->
+                    <div class="form-group" style="margin-top: 30px;">
+                        <label for="keperluan_surat">Keperluan Surat / Alasan:</label>
+                        <div class="input-icon-group">
+                            <i class="fas fa-file-pen"></i>
+                            <textarea id="keperluan_surat" name="keperluan_surat" rows="3" placeholder="Contoh: Persyaratan pengajuan beasiswa sekolah / Keringanan biaya rawat inap RSUD Jombang." required></textarea>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-file-arrow-down"></i> Buat dan Unduh SKTM
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Pemerintah Desa Jatisari.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fungsi untuk dropdown menu surat
+        function toggleDropdown() {
+            const el = document.getElementById('suratDropdown');
+            el.classList.toggle('show');
+        }
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
