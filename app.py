@@ -1,10 +1,54 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file, flash
 from docxtpl import DocxTemplate
 import os
 from datetime import datetime, date
 import time 
 
+# --- Import Tambahan untuk Autentikasi dan Database ---
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+# Hashing dihapus: from werkzeug.security import generate_password_hash, check_password_hash
+
+# Import PyMySQL
+import pymysql 
+pymysql.install_as_MySQLdb()
+# -----------------------------------------------------
+
 app = Flask(__name__)
+
+# --- Konfigurasi Database dan Keamanan ---
+app.config['SECRET_KEY'] = 'rahasia_desa_budugsidorejo_2025' 
+
+# >>> KONFIGURASI MYSQL <<<
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1/db_desa_budugsidorejo'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login' 
+login_manager.login_message_category = 'danger' 
+# -----------------------------------------
+
+# --- Model Database User (Admin) - TANPA HASHING ---
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    # GANTI: password_hash menjadi password, karena kita simpan teks biasa
+    password = db.Column(db.String(128)) 
+
+    def set_password(self, password):
+        # TIDAK ADA HASHING: Simpan password dalam bentuk teks biasa
+        self.password = password
+
+    def check_password(self, password):
+        # Verifikasi LANGSUNG: Membandingkan teks input dengan teks yang tersimpan
+        # (SANGAT TIDAK AMAN, HANYA UNTUK DEBUGGING)
+        return self.password == password
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+# -----------------------------------
 
 # Direktori Dasar Proyek
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -82,7 +126,10 @@ def generate_and_send_doc(template_file, context, output_name_prefix):
         download_name=output_filename
     )
 
-# ROUTE UTAMA
+# ==========================================
+# ROUTE PUBLIK & AUTENTIKASI
+# ==========================================
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -92,9 +139,53 @@ def profil_desa():
     section = request.args.get('section', 'visi_misi') 
     return render_template('profil.html', section=section) 
 
-# ROUTE FORMULIR
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        try:
+            # 1. Cari user
+            user = User.query.filter_by(username=username).first()
+
+            # 2. Verifikasi user dan password menggunakan perbandingan string langsung
+            if user and user.check_password(password):
+                login_user(user)
+                next_page = request.args.get('next')
+                flash(f'Selamat datang kembali, {username}!', 'success')
+                return redirect(next_page or url_for('index'))
+            else:
+                flash('Login gagal. Periksa username dan password Anda.', 'danger')
+        
+        except Exception as e:
+            flash(f'Error koneksi database: Pastikan MySQL Anda berjalan. ({e})', 'danger')
+            
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Anda telah berhasil keluar.', 'info')
+    return redirect(url_for('index'))
+
+@app.route('/form')
+@login_required
+def form_surat_index():
+    return redirect(url_for('index'))
+
+
+# ==========================================
+# ROUTE FORMULIR (DIPROTEKSI LOGIN)
+# ==========================================
+
 # SKCK
 @app.route('/form/skck', methods=['GET', 'POST'])
+@login_required
 def form_skck():
     if request.method == 'GET':
         return render_template('form_skck.html')
@@ -119,8 +210,9 @@ def form_skck():
         }
         return generate_and_send_doc('template_skck.docx', context, 'Surat_SKCK')
 
-# DOMISILI ---
+# DOMISILI
 @app.route('/form/domisili', methods=['GET', 'POST'])
+@login_required
 def form_domisili():
     if request.method == 'GET':
         return render_template('form_domisili.html')
@@ -135,6 +227,7 @@ def form_domisili():
 
 # KEPEMILIKAN KENDARAAN 
 @app.route('/form/kendaraan', methods=['GET', 'POST'])
+@login_required
 def form_kendaraan():
     if request.method == 'GET':
         return render_template('form_kendaraan.html', date=date)
@@ -176,8 +269,9 @@ def form_kendaraan():
 
         return generate_and_send_doc('template_kepemilikan_kendaraan.docx', context, 'Surat_Kepemilikan_Kendaraan')
 
-# SURAT KUASA ---
+# SURAT KUASA
 @app.route('/form/kuasa', methods=['GET', 'POST'])
+@login_required
 def form_surat_kuasa():
     if request.method == 'GET':
         return render_template('form_surat_kuasa.html')
@@ -206,8 +300,9 @@ def form_surat_kuasa():
         }
         return generate_and_send_doc('template_surat_kuasa.docx', context, 'Surat_Kuasa')
 
-# SKTM ---
+# SKTM
 @app.route('/form/sktm', methods=['GET', 'POST'])
+@login_required
 def form_sktm():
     if request.method == 'GET':
         return render_template('form_sktm.html')
@@ -229,8 +324,9 @@ def form_sktm():
         }
         return generate_and_send_doc('template_sktm.docx', context, 'Surat_SKTM')
 
-# SKU ---
+# SKU
 @app.route('/form/sku', methods=['GET', 'POST'])
+@login_required
 def form_sku():
     if request.method == 'GET':
         return render_template('form_sku.html')
@@ -254,8 +350,9 @@ def form_sku():
         }
         return generate_and_send_doc('template_sku.docx', context, 'Surat_SKU')
 
-# KEMATIAN ---
+# KEMATIAN
 @app.route('/form/kematian', methods=['GET', 'POST'])
+@login_required
 def form_surat_kematian():
     if request.method == 'GET':
         return render_template('form_surat_kematian.html')
@@ -285,8 +382,9 @@ def form_surat_kematian():
         }
         return generate_and_send_doc('template_surat_kematian.docx', context, 'Surat_Kematian')
 
-# KEHILANGAN ---
+# KEHILANGAN
 @app.route('/form/kehilangan', methods=['GET', 'POST'])
+@login_required
 def form_kehilangan():
     if request.method == 'GET':
         return render_template('form_kehilangan.html')
@@ -317,4 +415,24 @@ def form_kehilangan():
         return generate_and_send_doc('template_kehilangan.docx', context, 'Surat_Kehilangan')
 
 if __name__ == '__main__':
+    # Memastikan konteks aplikasi aktif untuk operasi database
+    with app.app_context():
+        db.create_all()
+        print("Mengecek dan membuat ulang User 'admin' untuk memastikan password tersimpan sebagai teks biasa...")
+        
+        # 1. Hapus user lama
+        admin_user = User.query.filter_by(username='admin').first()
+        if admin_user:
+            db.session.delete(admin_user)
+            db.session.commit()
+            print(">>> Akun 'admin' lama telah dihapus.")
+
+        # 2. Buat user baru dengan password teks biasa (pass123)
+        new_admin = User(username='admin')
+        new_admin.set_password('pass123')
+        db.session.add(new_admin)
+        db.session.commit()
+        print(">>> User admin berhasil dibuat ULANG dengan password: pass123 (Teks Biasa)!")
+        # -----------------------------------------------------------
+        
     app.run(debug=True)

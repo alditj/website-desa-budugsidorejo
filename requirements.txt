@@ -1,4 +1,6 @@
 Flask
 docxtpl
-
-/untuk versi spesifik gunakan == conoth pip install Flask==2.0.1
+Flask-SQLAlchemy
+Flask-Login
+Werkzeug
+PyMySQL

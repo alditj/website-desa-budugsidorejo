@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin | Desa Budugsidorejo</title>
+    
+    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* CSS Tambahan Khusus Halaman Login untuk perataan tengah dan perbaikan */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Sesuaikan tinggi agar posisi vertikal di tengah area di bawah navbar */
+            min-height: calc(100vh - 120px - 50px); /* 100vh - header - footer - navbar */ 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 450px; 
+            animation: fadeIn 0.5s ease-in-out;
+            padding: 30px 40px; 
+            box-sizing: border-box; 
+        }
+
+        /* Styling Flash Message (Pesan Error) */
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .alert-danger i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Perbaikan untuk input-icon-group (agar ikon tidak tabrakan) */
+        .input-icon-group input {
+            padding-left: 45px; 
+            width: 100%; /* Lebar 100% dari container */
+            box-sizing: border-box; 
+        }
+
+        .input-icon-group i {
+            position: absolute; /* Penting: harus absolute di dalam parent relative */
+            left: 15px; 
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888; 
+            z-index: 2;
+        }
+        
+        .input-icon-group input, .btn-primary {
+            border-radius: 8px; 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo">
+        <div>
+            <h1>PEMERINTAH DESA BUDUGSIDOREJO </h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Beranda</a></li>
+            <li><a href="{{ url_for('profil_desa') }}">Profil Desa</a></li>
+            
+            <li class="dropdown">
+            {% if current_user.is_authenticated %}
+                <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
+                <div class="dropdown-content" id="suratDropdown">
+                    <a href="{{ url_for('form_skck') }}">Surat Pengantar SKCK</a>
+                    </div>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="dropbtn active">Buat Surat (Login)</a></li>
+            {% endif %}
+            </li>
+
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('logout') }}" style="background-color: #dc3545; color: white;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="container">
+        
+        <div class="login-wrapper">
+            
+            <div class="form-surat login-box">
+                
+                <h2 class="section-title" style="text-align: center; border-bottom: none; margin-bottom: 10px;">
+                    <i class="fa-solid fa-user-shield"></i> LOGIN ADMIN
+                </h2>
+                <div style="width: 50px; height: 4px; background: #ffd700; margin: 0px auto 30px auto; border-radius: 2px;"></div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert-{{ category }} alert-danger">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('login') }}">
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="username">Username</label>
+                        <div class="input-icon-group" style="position: relative;">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="username" name="username" placeholder="Masukkan Username" required autocomplete="off" autofocus>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label for="password">Password</label>
+                        <div class="input-icon-group" style="position: relative;">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Masukkan Password" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%;">
+                        <i class="fa-solid fa-right-to-bracket"></i> MASUK SISTEM
+                    </button>
+
+                </form>
+
+                <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #777;">
+                    <p>Sistem Informasi Pelayanan Surat Desa</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2025 Pemerintah Desa Budugsidorejo.
+    </footer>
+
+</body>
+</html>

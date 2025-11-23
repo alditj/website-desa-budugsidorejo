@@ -29,25 +29,38 @@
         </div>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Beranda</a></li>
-            <li><a href="{{ url_for('profil_desa') }}" class="active">Profil Desa</a></li>
-            <li class="dropdown">
-            <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
-            <div class="dropdown-content" id="suratDropdown">
-                    <a href="{{ url_for('form_skck') }}">Surat Pengantar SKCK</a>
-                    <a href="{{ url_for('form_domisili') }}">Surat Keterangan Domisili</a>
-                    <a href="{{ url_for('form_kendaraan') }}">Surat Keterangan Kepemilikan Kendaraan</a>
-                    <a href="{{ url_for('form_surat_kuasa') }}">Surat Kuasa</a>
-                    <a href="{{ url_for('form_sktm') }}">Surat Keterangan Tidak Mampu (SKTM)</a>
-                    <a href="{{ url_for('form_sku') }}">Surat Keterangan Usaha (SKU)</a>
-                    <a href="{{ url_for('form_surat_kematian') }}">Surat Keterangan Kematian</a>
-                    <a href="{{ url_for('form_kehilangan') }}">Surat Keterangan Kehilangan</a>
-            </div>
-        </li>
-        </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Beranda</a></li>
+                <li><a href="{{ url_for('profil_desa') }}" class="{% if 'profil' in request.path %}active{% endif %}">Profil Desa</a></li>
+                
+                <li class="dropdown">
+                {% if current_user.is_authenticated %}
+                    <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
+                    <div class="dropdown-content" id="suratDropdown">
+                        <a href="{{ url_for('form_skck') }}">Surat Pengantar SKCK</a>
+                        <a href="{{ url_for('form_domisili') }}">Surat Keterangan Domisili</a>
+                        <a href="{{ url_for('form_kendaraan') }}">Surat Keterangan Kepemilikan Kendaraan</a>
+                        <a href="{{ url_for('form_surat_kuasa') }}">Surat Kuasa</a>
+                        <a href="{{ url_for('form_sktm') }}">SKTM</a>
+                        <a href="{{ url_for('form_sku') }}">SKU</a>
+                        <a href="{{ url_for('form_surat_kematian') }}">Surat Keterangan Kematian</a>
+                        <a href="{{ url_for('form_kehilangan') }}">Surat Keterangan Kehilangan</a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="dropbtn">Buat Surat (Login)</a>
+                {% endif %}
+                </li>
+
+                {% if current_user.is_authenticated %}
+                    <li>
+                        <a href="{{ url_for('logout') }}" style="background-color: #dc3545; color: white;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
 
     <div class="content">
 
