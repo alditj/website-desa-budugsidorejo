@@ -1,6 +1,6 @@
 -> pada flask ini saya menggunakan lingkungan virtual, semua libray yang dibutuhkan berada di requirements.txt 
     untuk versi spesifik gunakan == conoth pip install Flask==2.0.1
-    untuk menginstall libray: pip install -r requirements.txt
+    untuk menginstall libray pada requirements.txt: pip install -r requirements.txt
 
 -> Lingkungan Virtual (venv)
     Jalankan perintah berikut: python -m venv nama_env_anda 

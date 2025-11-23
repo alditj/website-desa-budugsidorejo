@@ -7,9 +7,9 @@ import time
 # --- Import Tambahan untuk Autentikasi dan Database ---
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-# Hashing dihapus: from werkzeug.security import generate_password_hash, check_password_hash
+# Hashing DIHILANGKAN: from werkzeug.security import generate_password_hash, check_password_hash
 
-# Import PyMySQL
+# Import PyMySQL (untuk koneksi ke MySQL)
 import pymysql 
 pymysql.install_as_MySQLdb()
 # -----------------------------------------------------
@@ -19,7 +19,8 @@ app = Flask(__name__)
 # --- Konfigurasi Database dan Keamanan ---
 app.config['SECRET_KEY'] = 'rahasia_desa_budugsidorejo_2025' 
 
-# >>> KONFIGURASI MYSQL <<<
+# >>> KONFIGURASI MYSQL ANDA <<<
+# Pastikan database 'db_desa_budugsidorejo' sudah dibuat di MySQL/MariaDB Anda
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1/db_desa_budugsidorejo'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -32,17 +33,17 @@ login_manager.login_message_category = 'danger'
 # --- Model Database User (Admin) - TANPA HASHING ---
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    # GANTI: password_hash menjadi password, karena kita simpan teks biasa
+    # Diperbesar untuk menampung username panjang
+    username = db.Column(db.String(100), unique=True, nullable=False) 
+    # Kolom untuk menyimpan password dalam teks biasa
     password = db.Column(db.String(128)) 
 
     def set_password(self, password):
-        # TIDAK ADA HASHING: Simpan password dalam bentuk teks biasa
+        # SIMPAN TEKS BIASA: Tidak ada generate_password_hash()
         self.password = password
 
     def check_password(self, password):
-        # Verifikasi LANGSUNG: Membandingkan teks input dengan teks yang tersimpan
-        # (SANGAT TIDAK AMAN, HANYA UNTUK DEBUGGING)
+        # VERIFIKASI KESAMAAN: Membandingkan teks input dengan teks yang tersimpan (Plain Text)
         return self.password == password
 
 @login_manager.user_loader
@@ -84,6 +85,7 @@ def generate_and_send_doc(template_file, context, output_name_prefix):
     tanggal_surat = format_tanggal(datetime.now().strftime('%Y-%m-%d'))
     now = datetime.now()
     
+    # Data penomoran surat disesuaikan dengan kebutuhan (misal: Sifat, Nomor Urut, Kode Desa)
     nomor_surat_data = {
         'sifat': '470',
         'nomor_urut': '001',
@@ -114,9 +116,11 @@ def generate_and_send_doc(template_file, context, output_name_prefix):
         doc.render(context)
         doc.save(output_path)
     except FileNotFoundError:
-        return f"Error: File template '{template_file}' tidak ditemukan di '{TEMPLATE_DIR}'", 404
+        flash(f"Error: File template '{template_file}' tidak ditemukan.", 'danger')
+        return redirect(url_for('index'))
     except Exception as e:
-        return f"Error saat memproses template: {e}", 500
+        flash(f"Error saat memproses template: {e}", 'danger')
+        return redirect(url_for('index'))
 
     # 3. Kirim file
     return send_file(
@@ -142,6 +146,7 @@ def profil_desa():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        # Jika sudah login, redirect ke halaman utama
         return redirect(url_for('index'))
 
     if request.method == 'POST':
@@ -149,10 +154,10 @@ def login():
         password = request.form.get('password')
         
         try:
-            # 1. Cari user
+            # 1. Cari user di database
             user = User.query.filter_by(username=username).first()
 
-            # 2. Verifikasi user dan password menggunakan perbandingan string langsung
+            # 2. Verifikasi menggunakan perbandingan string langsung (Plain Text)
             if user and user.check_password(password):
                 login_user(user)
                 next_page = request.args.get('next')
@@ -162,7 +167,8 @@ def login():
                 flash('Login gagal. Periksa username dan password Anda.', 'danger')
         
         except Exception as e:
-            flash(f'Error koneksi database: Pastikan MySQL Anda berjalan. ({e})', 'danger')
+            # Catch error koneksi/skema database
+            flash(f'Error koneksi database: {e}. Pastikan MySQL berjalan dan tabel User sudah benar.', 'danger')
             
     return render_template('login.html')
 
@@ -176,6 +182,7 @@ def logout():
 @app.route('/form')
 @login_required
 def form_surat_index():
+    # Redirect ke halaman utama jika hanya mengakses /form
     return redirect(url_for('index'))
 
 
@@ -219,6 +226,7 @@ def form_domisili():
     elif request.method == 'POST':
         data = request.form.to_dict()
         
+        # Format tanggal lahir
         if data.get('tanggal_lahir'):
             data['tanggal_lahir'] = format_tanggal(data.get('tanggal_lahir'))
             
@@ -277,7 +285,7 @@ def form_surat_kuasa():
         return render_template('form_surat_kuasa.html')
     elif request.method == 'POST':
         data = request.form.to_dict()
-        # Mapping Pihak 1
+        # Mapping Pihak 1 (Pemberi Kuasa)
         context = {
             'nama_pihak_pertama': data.get('nama_pemohon'),
             'Nik1': data.get('nik_pemohon'),
@@ -287,7 +295,7 @@ def form_surat_kuasa():
             'nama_bawah1': data.get('nama_pemohon'),
             'Ds1': DEFAULT_DESA, 'Kec1': DEFAULT_KECAMATAN, 'Kab1': DEFAULT_KABUPATEN,
             
-            # Mapping Pihak 2
+            # Mapping Pihak 2 (Penerima Kuasa)
             'nama_pihak_kedua': data.get('nama_penerima'),
             'Nik2': data.get('nik_penerima'),
             'Dsn2': data.get('dsn_penerima'),
@@ -300,7 +308,7 @@ def form_surat_kuasa():
         }
         return generate_and_send_doc('template_surat_kuasa.docx', context, 'Surat_Kuasa')
 
-# SKTM
+# SKTM (Surat Keterangan Tidak Mampu)
 @app.route('/form/sktm', methods=['GET', 'POST'])
 @login_required
 def form_sktm():
@@ -324,7 +332,7 @@ def form_sktm():
         }
         return generate_and_send_doc('template_sktm.docx', context, 'Surat_SKTM')
 
-# SKU
+# SKU (Surat Keterangan Usaha)
 @app.route('/form/sku', methods=['GET', 'POST'])
 @login_required
 def form_sku():
@@ -417,22 +425,24 @@ def form_kehilangan():
 if __name__ == '__main__':
     # Memastikan konteks aplikasi aktif untuk operasi database
     with app.app_context():
+        # Membuat tabel database jika belum ada
         db.create_all()
-        print("Mengecek dan membuat ulang User 'admin' untuk memastikan password tersimpan sebagai teks biasa...")
         
-        # 1. Hapus user lama
-        admin_user = User.query.filter_by(username='admin').first()
-        if admin_user:
-            db.session.delete(admin_user)
+        # --- MEMBUAT USER ADMIN BARU (TANPA HASHING) ---
+        NEW_USERNAME = 'desaku desakudugsidorejo'
+        
+        # Cek apakah user admin baru sudah ada
+        if User.query.filter_by(username='desaku desakudugsidorejo').first() is None:
+            # Buat user baru dengan kredensial yang diminta
+            admin_user = User(username='desaku desakudugsidorejo')
+            admin_user.set_password('desaudugsidorejosumjob') 
+            
+            db.session.add(admin_user)
             db.session.commit()
-            print(">>> Akun 'admin' lama telah dihapus.")
-
-        # 2. Buat user baru dengan password teks biasa (pass123)
-        new_admin = User(username='admin')
-        new_admin.set_password('pass123')
-        db.session.add(new_admin)
-        db.session.commit()
-        print(">>> User admin berhasil dibuat ULANG dengan password: pass123 (Teks Biasa)!")
-        # -----------------------------------------------------------
+            print(f"User admin baru '{NEW_USERNAME}' berhasil dibuat).")
+        else:
+            print(f"User admin '{NEW_USERNAME}' sudah ada. Tidak ada user baru yang dibuat.")
+            
+        # --------------------------------------------------------------------------
         
     app.run(debug=True)
