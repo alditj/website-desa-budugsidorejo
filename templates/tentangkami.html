@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Desa Budugsidorejo | Tentang Kami</title>
+    <link rel="icon" href="{{ url_for('static', filename='image/logo.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* CSS Khusus Halaman Tentang Kami */
+        .content-box {
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin: 30px 0;
+        }
+        
+        .content-box h2 {
+            color: #006400; /* Warna hijau desa */
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-top: 30px;
+        }
+
+        .profile-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #006400; /* Warna hijau desa */
+            margin-bottom: 15px;
+        }
+
+        .profile-card h3 {
+            color: #006400;
+            margin-bottom: 5px;
+        }
+        
+        .profile-card p {
+            margin: 0;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .profile-detail {
+            max-width: 600px;
+        }
+        
+        @media (min-width: 768px) {
+            .profile-card {
+                flex-direction: row;
+                text-align: left;
+                gap: 30px;
+                padding: 40px;
+            }
+            .profile-detail {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Logo">
+        <div>
+            <h1>PEMERINTAH DESA BUDUGSIDOREJO </h1>
+            <p>Kecamatan Sumobito, Kabupaten Jombang, Jawa Timur</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Beranda</a></li>
+            <li><a href="{{ url_for('profil_desa') }}">Profil Desa</a></li>
+            <li><a href="{{ url_for('tentang_kami') }}" class="active">Tentang Kami</a></li> 
+            
+            <li class="dropdown">
+            {% if current_user.is_authenticated %}
+                <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
+                <div class="dropdown-content" id="suratDropdown">
+                    <a href="{{ url_for('form_skck') }}">SKCK</a>
+                    <a href="{{ url_for('form_domisili') }}">Domisili</a>
+                    <a href="{{ url_for('form_kendaraan') }}">Kepemilikan Kendaraan</a>
+                    <a href="{{ url_for('form_surat_kuasa') }}">Surat Kuasa</a>
+                    <a href="{{ url_for('form_sktm') }}">SKTM</a>
+                    <a href="{{ url_for('form_sku') }}">SKU</a>
+                    <a href="{{ url_for('form_surat_kematian') }}">Kematian</a>
+                    <a href="{{ url_for('form_kehilangan') }}">Kehilangan</a>
+                </div>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="dropbtn">Buat Surat (Login Admin)</a></li>
+            {% endif %}
+            </li>
+
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('logout') }}" style="background-color: #dc3545; color: white;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="container">
+        <main>
+            <section class="content-box">
+                <h2>Tentang Aplikasi Layanan Surat Digital</h2>
+                
+                <p>Website Informasi Desa dan Aplikasi Layanan Surat Desa (E-Surat), merupakan hasil dari kegiatan Magang Kerja Praktik mahasiswa Program Studi Teknik Informatika, Fakultas Teknologi Informasi, Universitas Hasyim Asy’ari, yang berfokus pada digitalisasi layanan di Desa Budugsidorejo.</p>
+                
+                <p>Website Informasi Desa bertujuan untuk menyediakan media informasi yang modern, mudah diakses, dan terstruktur, sekaligus mendukung keterbukaan informasi publik desa. Sementara itu, Aplikasi Layanan Surat Desa dirancang khusus untuk mengatasi inefisiensi dalam proses administrasi surat-menyurat yang sebelumnya dilakukan secara manual dan rawan kesalahan.</p>
+
+                <p>Secara teknis, kedua sistem ini dikembangkan menggunakan kerangka kerja web Flask (Python) dan basis data MySQL untuk keamanan dan pengelolaan data. Aplikasi layanan surat juga terintegrasi dengan teknologi DocxTemplate yang memungkinkan otomatisasi dokumen. Data yang diinput akan langsung diolah menjadi dokumen Microsoft Word (.docx) yang siap cetak, sesuai dengan format baku desa.</p>
+                
+                <p>Tujuan utama dari pengembangan sistem ini adalah mewujudkan pelayanan desa yang cepat, akurat, dan transparan, selaras dengan visi Smart Village Kabupaten Jombang.</p>
+
+                <h2 style="margin-top: 40px;">Profil Pengembang</h2>
+
+                <div class="profile-card">
+                    <img src="{{ url_for('static', filename='image/struktural/Jabbar.jpeg') }}" alt="Foto Pengembang" class="Foto-Pengembang">
+                    <div class="profile-detail">
+                        <h3>Muhammad Abdul Jabbar</h3>
+                        <p><strong>Universitas:</strong> Universitas Hasyim Asy’ari</p>
+                        <p><strong>Fakultas:</strong> Teknologi Informasi</p>
+                        <p><strong>Program Studi:</strong> Teknik Informatika</p>
+                        <p><strong>NIM:</strong> 2395114039</p>
+                        <p style="margin-top: 10px;"><em>"Dedikasi ini untuk Desa Budugsidorejo. Semoga teknologi ini bermanfaat untuk memajukan pelayanan publik."</em></p>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <img src="{{ url_for('static', filename='image/struktural/Faridl.jpeg') }}" alt="Foto Pengembang" class="Foto-Pengembang">
+                    <div class="profile-detail">
+                        <h3>Miftah Faridl</h3>
+                        <p><strong>Universitas:</strong> Universitas Hasyim Asy’ari</p>
+                        <p><strong>Fakultas:</strong> Teknologi Informasi</p>
+                        <p><strong>Program Studi:</strong> Teknik Informatika</p>
+                        <p><strong>NIM:</strong> 2395114004</p>
+                        <p style="margin-top: 10px;"><em>"Inovasi ini dipersembahkan untuk kemajuan Desa Budugsidorejo. Semoga kehadiran teknologi ini menjadi sarana efektif untuk optimalisasi layanan publik."</em></p>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        &copy; 2025 Pemerintah Desa Budugsidorejo.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fungsi untuk dropdown menu surat
+        function toggleDropdown() {
+            const el = document.getElementById('suratDropdown');
+            el.classList.toggle('show');
+        }
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

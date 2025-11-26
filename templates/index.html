@@ -23,6 +23,7 @@
             <ul>
                 <li><a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Beranda</a></li>
                 <li><a href="{{ url_for('profil_desa') }}" class="{% if 'profil' in request.path %}active{% endif %}">Profil Desa</a></li>
+                <li><a href="{{ url_for('tentang_kami') }}">Tentang Kami</a></li>
                 
                 <li class="dropdown">
                 {% if current_user.is_authenticated %}
@@ -312,7 +313,25 @@
                         <img src="{{ url_for('static', filename='image/galeri/18.jpg') }}" alt="Aktivitas 18" class="galeri-img">
                         <p class="galeri-caption">sosialisasi Bumdesma 15- April 2025.</p>
                     </div>
+                    <div class="galeri-item-slide">
+                        <img src="{{ url_for('static', filename='image/galeri/19.jpeg') }}" alt="Aktivitas 19" class="galeri-img">
+                        <p class="galeri-caption">Musyawarah desa tahun 2025.</p>
+                    </div>
 
+                    <div class="galeri-item-slide">
+                        <img src="{{ url_for('static', filename='image/galeri/20.jpeg') }}" alt="Aktivitas 20" class="galeri-img">
+                        <p class="galeri-caption">Musyawarah desa tahun 2025.</p>
+                    </div>
+
+                    <div class="galeri-item-slide">
+                        <img src="{{ url_for('static', filename='image/galeri/21.jpeg') }}" alt="Aktivitas 21" class="galeri-img">
+                        <p class="galeri-caption">Penyaluran fasilitas.</p>
+                    </div>
+
+                    <div class="galeri-item-slide">
+                        <img src="{{ url_for('static', filename='image/galeri/22.jpeg') }}" alt="Aktivitas 22" class="galeri-img">
+                        <p class="galeri-caption">Penyaluran fasilitas.</p>
+                    </div>
                 </div>
             </div>
 

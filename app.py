@@ -143,6 +143,10 @@ def profil_desa():
     section = request.args.get('section', 'visi_misi') 
     return render_template('profil.html', section=section) 
 
+@app.route('/tentangkami')
+def tentang_kami():
+    return render_template('tentangkami.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -429,13 +433,13 @@ if __name__ == '__main__':
         db.create_all()
         
         # --- MEMBUAT USER ADMIN BARU (TANPA HASHING) ---
-        NEW_USERNAME = 'desaku desakudugsidorejo'
+        NEW_USERNAME = 'user name berhasil dibuat'
         
         # Cek apakah user admin baru sudah ada
-        if User.query.filter_by(username='desaku desakudugsidorejo').first() is None:
+        if User.query.filter_by(username='Asmujiono').first() is None:
             # Buat user baru dengan kredensial yang diminta
-            admin_user = User(username='desaku desakudugsidorejo')
-            admin_user.set_password('desaudugsidorejosumjob') 
+            admin_user = User(username='Asmujiono')
+            admin_user.set_password('19681022112015102583') 
             
             db.session.add(admin_user)
             db.session.commit()

@@ -9,6 +9,7 @@
         {% elif section == 'sejarah' %}Sejarah Singkat Desa
         {% elif section == 'struktur' %}Struktur Pemerintah Desa
         {% elif section == 'data_penduduk' %}Data Penduduk Desa
+        {% elif section == 'galeri' %}Galeri Foto Desa
         {% else %}Visi dan Misi Desa
         {% endif %}
     </title>
@@ -17,6 +18,52 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* CSS Tambahan Khusus untuk Galeri Foto */
+        .gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Jarak antar foto */
+            justify-content: flex-start; 
+            margin-top: 20px;
+        }
+        .gallery-item {
+            /* Perhitungan agar 2 foto per baris. 50% - setengah dari gap */
+            flex: 1 1 calc(50% - 10px); 
+            max-width: calc(50% - 10px); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #ffffff;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 250px; /* Tinggi seragam untuk semua foto */
+            object-fit: cover; /* Memastikan foto mengisi kotak tanpa distorsi */
+            display: block;
+            border-bottom: 3px solid #006400; /* Warna hijau desa */
+        }
+        .gallery-item p {
+            padding: 10px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+        }
+        /* Responsif: Ubah menjadi 1 kolom di layar kecil */
+        @media (max-width: 768px) {
+            .gallery-item {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 
 </head>
 <body>
@@ -33,7 +80,8 @@
             <ul>
                 <li><a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Beranda</a></li>
                 <li><a href="{{ url_for('profil_desa') }}" class="{% if 'profil' in request.path %}active{% endif %}">Profil Desa</a></li>
-                
+                <li><a href="{{ url_for('tentang_kami') }}">Tentang Kami</a></li>
+
                 <li class="dropdown">
                 {% if current_user.is_authenticated %}
                     <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">Buat Surat ▼</a>
@@ -72,6 +120,7 @@
                 <li><a href="{{ url_for('profil_desa', section='visi_misi') }}" class="{% if section == 'visi_misi' %}active{% endif %}"><i class="fa-solid fa-bullseye"></i> Visi & Misi</a></li>
                 <li><a href="{{ url_for('profil_desa', section='struktur') }}" class="{% if section == 'struktur' %}active{% endif %}"><i class="fa-solid fa-people-group"></i> Struktur Pemerintahan</a></li>
                 <li><a href="{{ url_for('profil_desa', section='data_penduduk') }}" class="{% if section == 'data_penduduk' %}active{% endif %}"><i class="fa-solid fa-users"></i> Data Penduduk</a></li>
+                <li><a href="{{ url_for('profil_desa', section='galeri') }}" class="{% if section == 'galeri' %}active{% endif %}"><i class="fa-solid fa-camera"></i> Galeri Desa</a></li>
             </ul>
         </aside>
 
@@ -81,6 +130,7 @@
                 {% elif section == 'sejarah' %}Sejarah Singkat Desa
                 {% elif section == 'struktur' %}Struktur Pemerintah Desa
                 {% elif section == 'data_penduduk' %}Data Penduduk Desa
+                {% elif section == 'galeri' %}Galeri Foto Desa
                 {% else %}Visi dan Misi Desa
                 {% endif %}
             </h2>
@@ -225,6 +275,121 @@
                     </p>
 
 
+                {% elif section == 'galeri' %}
+                    <h3>Kumpulan Foto Kegiatan Dokumentasi Desa</h3>
+                    <p>Berbagai momen dan kegiatan penting yang ada di Desa Budugsidorejo.</p>
+
+                    <div class="gallery-grid">
+                        
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/1.jpg') }}" alt="Aktivitas 1">
+                            <p>kegiatan Pkk setiap 1 bulan sekali.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/2.jpg') }}" alt="Aktivitas 2">
+                            <p>pemberdayaan dan kesejahteraan keluarga desa.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/3.jpg') }}" alt="Aktivitas 3">
+                            <p>UMKM 14 Agustus 2025</p>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/4.jpg') }}" alt="Aktivitas 4">
+                            <p>Taman Posyandu PERMATA BUNDA.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/5.jpg') }}" alt="Aktivitas 5">
+                            <p>wisuda tgl 13 november 2024.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/6.jpg') }}" alt="Aktivitas 6">
+                            <p>wisuda tgl 19 november 2025.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/7.jpg') }}" alt="Aktivitas 7">
+                            <p>Sekolah Orang Tua Hebat 17 September 2024.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/8.jpg') }}" alt="Aktivitas 8">
+                            <p>Sekolah Orang Tua Hebat 17 September 2024.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/9.jpg') }}" alt="Aktivitas 9">
+                            <p>Posyandu "JINTEN".</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/10.jpg') }}" alt="Aktivitas 10">
+                            <p>taman peduli gizi.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/11.jpg') }}" alt="Aktivitas 11">
+                            <p>pembasmian jentik setiap 2 minggu.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/12.jpg') }}" alt="Aktivitas 12">
+                            <p>Kegiatan TPG (Taman Pemulihan Gizi).</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/13.jpg') }}" alt="Aktivitas 13">
+                            <p>posyandu Lansia Budug'</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/14.jpg') }}" alt="Aktivitas 14">
+                            <p>posyandu remaja.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/15.jpg') }}" alt="Aktivitas 15">
+                            <p>posyandu ilp "KETUMBAR".</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/16.jpg') }}" alt="Aktivitas 16">
+                            <p>posyandu balita sidokampir.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/17.jpg') }}" alt="Aktivitas 17">
+                            <p>posyandu lansia.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/18.jpg') }}" alt="Aktivitas 18">
+                            <p>sosialisasi Bumdesma 15- April 2025.</p>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/19.jpeg') }}" alt="Aktivitas 19">
+                            <p>Musyawarah desa tahun 2025.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/20.jpeg') }}" alt="Aktivitas 20">
+                            <p>Musyawarah desa tahun 2025.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/21.jpeg') }}" alt="Aktivitas 21">
+                            <p>Penyaluran fasilitas.</p>
+                        </div>
+
+                        <div class="gallery-item">
+                            <img src="{{ url_for('static', filename='image/galeri/22.jpeg') }}" alt="Aktivitas 22">
+                            <p>Penyaluran fasilitas.</p>
+                        </div>
+                    </div>
+                    
                 {% else %}
                     <h3>Visi Desa Budugsidorejo</h3>
                     <blockquote>
